@@ -167,7 +167,7 @@ client.on('guildMemberAdd', member => {
 
 
 
-var prefix ="."
+
 var colors = new Array(100);
 
 client.on("message", (message) => {
