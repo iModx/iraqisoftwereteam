@@ -382,4 +382,38 @@ client.on('message', message => {
 
 
 
+var ss = 0;
+
+client.on('voiceStateUpdate', (o,n) => {
+    if (o.voiceChannel && !n.voiceChannel) {
+        ss-=1
+        n.guild.channels.get("482974582630907904").edit({
+            name : "Voice Online : [" + ss+ "]"
+        })
+    };
+    if (n.voiceChannel && !o.voiceChannel) {
+        ss+=1
+        n.guild.channels.get("482974582630907904").edit({
+            name : "Voice Online : [" + ss+ "]"
+        })
+    }
+})
+client.on("ready", () => {
+    client.guilds.get("482687318902308874").members.forEach(m => {
+        if (m.voiceChannel) {
+            ss+=1
+        };
+        client.channels.get("482974582630907904").edit({
+            name : "Voice Online : [" + ss+ "]"
+        })
+    });
+});
+
+
+
+
+
+
+
+
 client.login(process.env.BOT_TOKEN);
