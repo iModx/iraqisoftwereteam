@@ -277,7 +277,7 @@ client.on('message', message =>{
         if(!reason) return message.channel.send("من فضلك ضع سبب");
     
         let reportEmbed = new Discord.RichEmbed()
-        .setTitle("User just reported...")
+        .setTitle("ريبورت جديد")
         .setColor("#f7abab")
         .addField("- ريبورت على :", `${rUser} (${rUser.id})`)
         .addField("- تم تقديم الريبورت بواسطة : :", `${message.author} (${message.author.id})`)
@@ -294,6 +294,39 @@ client.on('message', message =>{
         reportschannel.send(reportEmbed);
     };
 });
+
+
+
+
+
+
+
+
+   client.on('message', message => {
+       var prefix ="."
+   if(message.content.startsWith(prefix + "invites")) {
+    message.guild.fetchInvites().then(invs => {
+      let user = message.mentions.users.first() || message.author
+      let personalInvites = invs.filter(i => i.inviter.id === user.id);
+      let inviteCount = personalInvites.reduce((p, v) => v.uses + p, 0);
+               let mmmmEmbed = new Discord.RichEmbed()
+                         .setAuthor(client.user.username)
+                         .setThumbnail(message.author.avatarURL)
+ .addField(` لقد قمت بدعوة :`, ` ${inviteCount} `)
+           .setFooter(`- Requested By: ${message.author.tag}`);
+           message.channel.send(mmmmEmbed)
+});
+  }
+});
+
+
+
+
+
+
+
+
+
 
 
 
