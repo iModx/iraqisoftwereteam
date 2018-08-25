@@ -257,10 +257,7 @@ client.on('message', message => {
     if (message.author.bot) return;
      if (message.content === prefix + "ahelp") {
          if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.reply(`
-         
-         **لست من المشرفين لن يتم ارسال الرسالة إليك**
-         
-         
+                  
          `);
          message.channel.send('**لقد تم ارسال رسالة المساعدة في الرسائل الخاصة**');
             
