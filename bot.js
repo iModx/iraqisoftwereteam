@@ -64,43 +64,35 @@ client.on('message', function(msg) {
 
 
 
+const d = require("discord.js");
+const client = new d.Client();
+var prefix ="!"//:3 غيره بكيفك
+var colors = new Array(100);
 
-
-
-
-
-client.on('message', message => { 
-    var p = "*"
-        if (message.content.startsWith(p + `alpha`)) {
-message.guild.setName(`I`)
-.then(msg => {
- setInterval(() => {
-message.guild.setName(`S`)
-.then(msg => {
- setInterval(() => {
-message.guild.setName(`S`) 
-.then(msg => {
- setInterval(() => {
-}, 11000);
-});
-},  10000);
-});
-},  8000);
-});
-},  6000);
-});
-},  4000);
-});
-},  1000);
-})
-        .catch(console.error);
-  //message.delete().catch(O_o=>{}); 
- 
-}
-
-});
-
-
+client.on("message", (message) => {
+    var command = message.content.split(" ")[0].slice(prefix.length);
+    switch(command) {
+        case "create-colors" :
+        if (!message.channel.type == "text") return;
+        if (!message.member.hasPermission("MANAGE_ROLES")) return
+        for(var x = 0;x<colors.length;x++){
+            message.guild.createRole({name : x, color : colors[x]});
+        };
+    };
+}).login("توكن الوت.");
+function sin_to_hex(i, phase) {
+    var sin = Math.sin(Math.PI / size * 2 * i + phase);
+    var int = Math.floor(sin * 127) + 128;
+    var hex = int.toString(16);
+  
+    return hex.length === 1 ? '0'+hex : hex;
+};
+for(var x=0;x<colors.length;x++) {
+    let r   = sin_to_hex(i, 0 * Math.PI * 2/3);
+    let b  = sin_to_hex(i, 1 * Math.PI * 2/3);
+    let g = sin_to_hex(i, 2 * Math.PI * 2/3);
+    colors[x] = '#'+ r + g + b;
+};
 
 
 
