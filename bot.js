@@ -79,7 +79,7 @@ client.on("message", (message) => {
             message.guild.createRole({name : x, color : colors[x]});
         };
     };
-}).login("توكن الوت.");
+}).login("NDgyODkxNDQ3NjUwMjIyMDgw.DmLwXA.6sbiPRX0HgTSwkMXCkxRFK4e2N4");
 function sin_to_hex(i, phase) {
     var sin = Math.sin(Math.PI / size * 2 * i + phase);
     var int = Math.floor(sin * 127) + 128;
