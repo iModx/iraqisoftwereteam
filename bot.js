@@ -51,131 +51,25 @@ setTimeout(() => {
 
 
 
-
-const d = require("discord.js");
-const fs = require("fs");
-var json = JSON.parse(fs.readFileSync("json.json", "utf8"));
-
-client.on("message", (message) => {
-    var command = message.content.split(" ")[0];
-    command = command.slice(prefix.length);
-    if (!message.content.startsWith(prefix)) return;
-    switch(command) {
-        case "mute" : 
-        if (!message.channel.type =="text") return;
-        if (!message.member.hasPermission("MANAGE_CHANNELS")) return;
-        if (!message.mentions.members.first()) return;
-        message.guild.channels.forEach(c => {
-            c.overwritePermissions(message.mentions.members.first().id, {
-                SEND_MESSAGES : false,
-                CONNECT : false
-            })
-        })
-        json[message.guild.id + message.mentions.members.first().id] = {muted : true};
-        fs.writeFile("json.json", JSON.stringify(json), err => {
-            if (err) console.error(err);
-        });
-        message.channel.send(`** <@${message.mentions.members.first().id}> لقد تم اعطاء ميوت الى!🤐**`);
-        break;
-        case "unmute" : 
-        if (!message.channel.type =="text") return;
-        if (!message.member.hasPermission("MANAGE_CHANNELS")) return;
-        if (!message.mentions.members.first()) return;
-        message.guild.channels.forEach(c => {
-            c.overwritePermissions(message.mentions.members.first().id, {
-                SEND_MESSAGES : null,
-                CONNECT : null
-            })
-        })
-        json[message.guild.id + message.mentions.members.first().id] = {muted : false};
-        fs.writeFile("json.json", JSON.stringify(json), err => {
-            if (err) console.error(err);
-        });
-        message.channel.send(`** <@${message.mentions.members.first().id}> تم فك الميوت عن!😀**`);
-    }
-})
-
-.on("guildMemberAdd", (member) => {
-    if(json[member.guild.id + member.user.id]) {
-        if (json[member.guild.id + member.user.id].muted == true) {
-            member.guild.channels.forEach(c => {
-                c.overwritePermissions(member.user.id, {
-                    SEND_MESSAGES : false,
-                  CONNECT : false
-                })
-            })
-        }
-    }
-})
-
-
-
-
-
-
-
-
-
-var temp = {
-
-};
-var prefix = "=";
-client.on("message",(message) => {
-    if (message.channel.type !== "text") return;
-    if (!message.content.startsWith(prefix)) return;
-    switch(message.content.split(" ")[0].slice(prefix.length)) {
-        case "tempon" :
-            if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** لا يوجد لديك خواص تسمح لك بالقيام بهذا الامر");
-            temp[message.guild.id] = {
-                work : true,
-                channel : "Not Yet"
-            };
-            message.guild.createChannel("اضغط لصنع روم مؤقت").then(c => {
-                c.setPosition(1);
-                temp[message.guild.id].channel = c.id
-                message.channel.send("** تم انشاء الروم.**");
-            });
-        break;
-        case "tempof" :
-        if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** لا يوجد لديك خواص تسمح لك بالقيام بهذا الامر");
-        message.guild.channels.get(temp[message.guild.id]).delete();
-            temp[message.guild.id] = {
-                work : false,
-                channel : "Not Yet"
-            };
-        message.channel.send("** تم انشاء الروم.**");
-    };
+client.on('message', function(msg) {
+  if(msg.content.startsWith ('=server')) {
+    if(!msg.channel.guild) return msg.reply('**:x: اسف لكن هذا الامر للسيرفرات فقط **');         
+    let embed = new Discord.RichEmbed()
+    .setColor('RANDOM')
+    .setThumbnail(msg.guild.iconURL)
+    .addField(':globe_with_meridians: **اسم السيرفر : **' , `**[ ${msg.guild.name} ]**`,true)
+    .addField(':earth_africa: ** موقع السيرفر :**',`**[ ${msg.guild.region} ]**`,true)
+    .addField(':military_medal:** الرتب :**',`**[ ${msg.guild.roles.size} ]**`,true)
+    .addField(':bust_in_silhouette:** عدد الاعضاء :**',`**[ ${msg.guild.memberCount} ]**`,true)
+    .addField(':white_check_mark:** عدد الاعضاء الاونلاين :**',`**[ ${msg.guild.members.filter(m=>m.presence.status == 'online').size} ]**`,true)
+    .addField(':pencil:** الرومات الكتابية :**',`**[ ${msg.guild.channels.filter(m => m.type === 'text').size} ]**`,true)
+    .addField(':loud_sound:** رومات الصوت :**',`**[ ${msg.guild.channels.filter(m => m.type === 'voice').size} ]**`,true)
+    .addField(':crown:** صاحب السيرفر :**',`**[ ${msg.guild.owner} ]**`,true)
+    .addField(':id:** ايدي السيرفر :**',`**[ ${msg.guild.id} ]**`,true)
+    .addField(':date:** تم عمل السيرفر في : **',msg.guild.createdAt.toLocaleString())
+    msg.channel.send({embed:embed});
+  }
 });
-client.on("voiceStateUpdate", (o,n) => {
-    if (!temp[n.guild.id]) return;
-    if (temp[n.guild.id].work == false) return;
-    if (n.voiceChannelID == temp[n.guild.id].channel) {
-        n.guild.createChannel(n.user.username, 'voice').then(c => {
-            n.setVoiceChannel(c);
-            c.overwritePermissions(n.user.id, {
-                CONNECT:true,
-                SPEAK:true,
-                MANAGE_CHANNEL:true,
-                MUTE_MEMBERS:true,
-                DEAFEN_MEMBERS:true,
-                MOVE_MEMBERS:true,
-                VIEW_CHANNEL:true  
-            });
-        })
-    };
-    if (!o.voiceChannel) return;
-    if (o.voiceChannel.name == o.user.username) {
-        o.voiceChannel.delete();
-    };
-});
-
-
-
-
-
-
-
-
 
 
 
