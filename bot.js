@@ -163,37 +163,57 @@ client.on('guildMemberAdd', member => {
 
 
 
+const invites = {};
+const wait = require('util').promisify(setTimeout);
+client.on('ready', () => {
+  wait(1000);
+
+  client.guilds.forEach(g => {
+    g.fetchInvites().then(guildInvites => {
+      invites[g.id] = guildInvites;
+    });
+  });
+});
+client.on('guildMemberAdd', member => {
+  member.guild.fetchInvites().then(guildInvites => {
+    const ei = invites[member.guild.id];
+    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
+    const inviter = client.users.get(invite.inviter.id);
+    const yumz = member.guild.channels.find("name", "اسم روم");
+     yumz.send(`<@${member.user.id}> joined by <@${inviter.id}>`);
+   //  yumz.send(`<@${member.user.id}> joined using invite code ${invite.code} from <@${inviter.id}>. Invite was used ${invite.uses} times since its creation.`);
+  }); 
+});
 
 
 
 
 
-var colors = new Array(100);
 
-client.on("message", (message) => {
-    var command = message.content.split(" ")[0].slice(prefix.length);
-    switch(command) {
-        case "create-colors" :
-        if (!message.channel.type == "text") return;
-        if (!message.member.hasPermission("MANAGE_ROLES")) return
-        for(var x = 0;x<colors.length;x++){
-            message.guild.createRole({name : x, color : colors[x]});
-        };
-    };
-}).login(process.env.BOT_TOKEN);
-function sin_to_hex(i, phase) {
-    var sin = Math.sin(Math.PI / size * 2 * i + phase);
-    var int = Math.floor(sin * 127) + 128;
-    var hex = int.toString(16);
-  
-    return hex.length === 1 ? '0'+hex : hex;
-};
-for(var x=0;x<colors.length;x++) {
-    let r   = sin_to_hex(i, 0 * Math.PI * 2/3);
-    let b  = sin_to_hex(i, 1 * Math.PI * 2/3);
-    let g = sin_to_hex(i, 2 * Math.PI * 2/3);
-    colors[x] = '#'+ r + g + b;
-};
+
+client.on('message', ra3d => {
+var prefix = ".";
+                        let args = ra3d.content.split(" ").slice(1).join(" ")
+if(ra3d.content.startsWith(prefix + 'cc')) {
+    if(!args) return ra3d.channel.send('`يرجي اختيار كم لون `');
+             if (!ra3d.member.hasPermission('ADMINISTRATOR')) return ra3d.channel.sendMessage('`**⚠ | `[MANAGE_ROLES]` لا يوجد لديك صلاحية**'); 
+              ra3d.channel.send(`**✅ |Created __${args}__ Colors**`);
+                  setInterval(function(){})
+                    let count = 0;
+                    let ecount = 0;
+          for(let x = 1; x < `${parseInt(args)+1}`; x++){
+            ra3d.guild.createRole({name:x,
+              color: 'RANDOM'})
+              }
+            }
+  });
+
+
+
+
+
+
+
 
 
 
