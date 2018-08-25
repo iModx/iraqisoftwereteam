@@ -264,32 +264,38 @@ client.on('ready', function(){
 
 
 
-
-const math = require('math-expression-evaluator');
-const stripIndents = require('common-tags').stripIndents;
-
-client.on('message', msg => {
-  var prefix = ".";
- if (msg.content.startsWith(prefix + 'cal')) {
-    let args = msg.content.split(" ").slice(1);
-        const question = args.join(' ');
-    if (args.length < 1) {
-        msg.reply('حدد معادلة ، من فضلك.');
-} else {    let answer;
-    try {
-        answer = math.eval(question);
-    } catch (err) {
-        msg.reply(`Error: ${err}`);
-    }
-
-    const embed = new Discord.RichEmbed()
-    .addField("**السؤال**: ",`**${question}**`, true)
-    .addField("**الناتج**: ",`**${answer}**`, true)
-    .setFooter("الذكية ITS حاسبة سيرفر")
-    msg.channel.send(embed)
-    }
-};
+client.on('message', message =>{
+    let messageArray = message.content.split(" ");
+    let cmd = messageArray[0];
+    let args = messageArray.slice(1);
+    let prefix = '.';
+     
+    if(cmd === `${prefix}report`){
+        let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+        if(!rUser) return message.channel.send("قم بمنشنت الشخص الذي تريد تقديم ريبورت عليه");
+        let reason = args.join(" ").slice(22);
+        if(!reason) return message.channel.send("من فضلك ضع سبب");
+    
+        let reportEmbed = new Discord.RichEmbed()
+        .setTitle("User just reported...")
+        .setColor("#f7abab")
+        .addField("- ريبورت على :", `${rUser} (${rUser.id})`)
+        .addField("- تم تقديم الريبورت بواسطة : :", `${message.author} (${message.author.id})`)
+        .addField("- تم كتابة الريبورت في روم :", message.channel)
+        .addField("- الوقت الذي كتب فيه الريبورت :", message.createdAt.toLocaleString(),true)
+        .addField("- سبب الريبورت :", reason);
+    
+        let reportschannel = message.guild.channels.find(`name`, "✰-reports");
+        if(!reportschannel) return message.channel.send("You should to make `reports` channel.");
+    
+    
+        message.delete().catch(O_o=>{});
+        message.author.send(`<@${rUser.id}>, تم تقديم الريبورت`)
+        reportschannel.send(reportEmbed);
+    };
 });
+
+
 
 
 client.login(process.env.BOT_TOKEN);
