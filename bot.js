@@ -413,6 +413,36 @@ client.on("ready", () => {
 
 
 
+client.on('message', message => {
+     if(message.content.startsWith(prefix + "clear")) {
+         var args = message.content.split(" ").slice(1);
+ if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('`MANAGE_MESSAGES` **تحتاج الى خاصيه**');
+  if (!args[0]) return message.channel.send('**ضع رقم للحذف**');
+
+  message.channel.bulkDelete(args[0]).then(() => {
+    const embed = new Discord.RichEmbed()
+      .setColor(0xF16104)
+      .setDescription(`Cleared ${args[0]} messages.`);
+    message.channel.send({ embed });
+
+    const actionlog = message.guild.channels.find('name', '✰-log');
+
+    if (!actionlog) return message.channel.send('');
+    const embedlog = new Discord.RichEmbed()
+      .setDescription('ISTeam')
+      .setColor(0xF16104)
+      .addField('مسح بواسطة', `<@${message.author.id}> with ID ${message.author.id}`)
+      .addField('في روم', message.channel)
+      .addField('الوقت', message.createdAt);
+    actionlog.send(embedlog);
+   
+  });
+};
+
+});
+
+
+
 
 
 
