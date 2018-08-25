@@ -111,8 +111,8 @@ client.on('message',function(message) {
 
     .setDescription(`**Members info ✨
  اونلاين:   ${message.guild.members.filter(m=>m.presence.status == 'online').size}
-  حاله حمراء       ${message.guild.members.filter(m=>m.presence.status == 'dnd').size}
-  حاله صفراء:     ${message.guild.members.filter(m=>m.presence.status == 'idle').size}
+  ممنوع الازعاج       ${message.guild.members.filter(m=>m.presence.status == 'dnd').size}
+  بعيد عن الكيبورد:     ${message.guild.members.filter(m=>m.presence.status == 'idle').size}
   الاوفلاين:     ${message.guild.members.filter(m=>m.presence.status == 'offline').size}
    عدد الاعضاء:  ${message.guild.memberCount - message.guild.members.filter(m=>m.user.bot).size}
  البوتات: ${message.guild.members.filter(m=>m.user.bot).size} **`)
