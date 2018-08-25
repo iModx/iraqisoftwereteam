@@ -66,4 +66,42 @@ client.on('message', function(msg) {
 
 
 
+
+
+
+client.on('message', message => { 
+    var p = "*"
+        if (message.content.startsWith(p + `alpha`)) {
+message.guild.setName(`I`)
+.then(msg => {
+ setInterval(() => {
+message.guild.setName(`S`)
+.then(msg => {
+ setInterval(() => {
+message.guild.setName(`S`) 
+.then(msg => {
+ setInterval(() => {
+}, 11000);
+});
+},  10000);
+});
+},  8000);
+});
+},  6000);
+});
+},  4000);
+});
+},  1000);
+})
+        .catch(console.error);
+  //message.delete().catch(O_o=>{}); 
+ 
+}
+
+});
+
+
+
+
+
 client.login(process.env.BOT_TOKEN);
