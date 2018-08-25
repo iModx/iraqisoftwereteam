@@ -142,14 +142,14 @@ client.on('guildMemberAdd', member => {
     let embed = new Discord.RichEmbed()
         .setColor('RANDOM')
         .setThumbnail(memberavatar)
-        .addField('🎽 | name :  ',`${member}`)
-        .addField('📢 | نورت السيرفر يا قلبي' , `Welcome to the server, ${member}`)
-        .addField('🆔 | user :', "**[" + `${member.id}` + "]**" )
-                .addField('➡| انت العضو رقم',`${member.guild.memberCount}`)
+        .addField('🎽 | **الإسم** :  ',`${member}`)
+        .addField('📢 | **نورت السيرفر يا قلبي**' , `**Welcome to IST server**, ${member}`)
+        .addField('🆔 | **الآيدي** :', "**[" + `${member.id}` + "]**" )
+                .addField('➡| **انت العضو رقم**',`${member.guild.memberCount}`)
                
                   .addField("Name:",`<@` + `${member.id}` + `>`, true)
                      
-                                     .addField(' الـسيرفر', `${member.guild.name}`,true)
+                                     .addField(' **نورت سيرفر**', `${member.guild.name}`,true)
                                        
      .setFooter(`${member.guild.name}`)
         .setTimestamp()
@@ -157,6 +157,39 @@ client.on('guildMemberAdd', member => {
       channel.sendEmbed(embed);
     });
 
+
+
+
+
+
+
+
+
+var colors = new Array(100);
+client.on("message", (message) => {
+    var command = message.content.split(" ")[0].slice(prefix.length);
+    switch(command) {
+        case "create-colors" :
+        if (!message.channel.type == "text") return;
+        if (!message.member.hasPermission("MANAGE_ROLES")) return
+        for(var x = 0;x<colors.length;x++){
+            message.guild.createRole({name : x, color : colors[x]});
+        };
+    };
+});
+function sin_to_hex(i, phase) {
+    var sin = Math.sin(Math.PI / size * 2 * i + phase);
+    var int = Math.floor(sin * 127) + 128;
+    var hex = int.toString(16);
+  
+    return hex.length === 1 ? '0'+hex : hex;
+};
+for(var x=0;x<colors.length;x++) {
+    let r   = sin_to_hex(i, 0 * Math.PI * 2/3);
+    let b  = sin_to_hex(i, 1 * Math.PI * 2/3);
+    let g = sin_to_hex(i, 2 * Math.PI * 2/3);
+    colors[x] = '#'+ r + g + b;
+};
 
 
 
