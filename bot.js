@@ -253,7 +253,7 @@ if (message.content.startsWith(prefix + 'setavatar')) {
 client.on('ready', function(){
   require("./antispam.js")(client, function(message){
      message.delete().then(yumz => {
-     message.channel.send(`stop spamming kid <@${message.author.id}>`).then(spammer => {
+     message.channel.send(`توقف عن تكرار الرسائل <@${message.author.id}>`).then(spammer => {
      spammer.delete(2000)
    });
    });
@@ -262,6 +262,34 @@ client.on('ready', function(){
 
 
 
+
+
+
+const math = require('math-expression-evaluator');
+const stripIndents = require('common-tags').stripIndents;
+
+client.on('message', msg => {
+  var prefix = ".";
+ if (msg.content.startsWith(prefix + 'cal')) {
+    let args = msg.content.split(" ").slice(1);
+        const question = args.join(' ');
+    if (args.length < 1) {
+        msg.reply('حدد معادلة ، من فضلك.');
+} else {    let answer;
+    try {
+        answer = math.eval(question);
+    } catch (err) {
+        msg.reply(`Error: ${err}`);
+    }
+
+    const embed = new Discord.RichEmbed()
+    .addField("**السؤال**: ",`**${question}**`, true)
+    .addField("**الناتج**: ",`**${answer}**`, true)
+    .setFooter("الذكية ITS حاسبة سيرفر")
+    msg.channel.send(embed)
+    }
+};
+});
 
 
 client.login(process.env.BOT_TOKEN);
