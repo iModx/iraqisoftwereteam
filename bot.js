@@ -460,4 +460,132 @@ client.on("message", (message) => {
             }
 });
 
+
+
+
+
+
+
+client.on('message', message => {
+    var prefix = "."
+  if (message.author.x5bz) return;
+  if (!message.content.startsWith(prefix)) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+
+  if (command == "kick") {
+               if(!message.channel.guild) return message.reply('** This command only for servers**');
+
+  if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("`KICK_MEMBERS` **لا تمتلك خاصة**");
+  if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("`KICK_MEMBERS` **لا يوجد لدي خاصية**");
+  let user = message.mentions.users.first();
+  let reason = message.content.split(" ").slice(2).join(" ");
+  if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+  if(!reason) return message.reply ("**اكتب سبب الطرد**");
+  if (!message.guild.member(user)
+  .kickable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجى اعطاء البوت رتبه عالية**");
+
+  message.guild.member(user).kick();
+
+  const kickembed = new Discord.RichEmbed()
+  .setAuthor(`KICKED!`, user.displayAvatarURL)
+  .setColor("RANDOM")
+  .setTimestamp()
+  .addField("**المستخدم:**",  '**[ ' + `${user.tag}` + ' ]**')
+  .addField("**تم الطرد بواسطة:**", '**[ ' + `${message.author.tag}` + ' ]**')
+  .addField("**السبب:**", '**[ ' + `${reason}` + ' ]**')
+  message.channel.send({
+    embed : kickembed
+  })
+}
+});
+
+
+
+
+
+
+
+
+
+
+const fs = require("fs");
+client.on('message', async message =>{
+    let messageArray = message.content.split(" ");
+    let cmd = messageArray[0];
+    let args = messageArray.slice(1);
+    let xp = require("./xp.json");
+
+  let xpAdd = Math.floor(Math.random() * 7) + 8;
+  console.log(xpAdd);
+
+  if(!xp[message.author.id]){
+    xp[message.author.id] = {
+      xp: 0,
+      level: 1
+    };
+  }
+
+
+  let curxp = xp[message.author.id].xp;
+  let curlvl = xp[message.author.id].level;
+  let nxtLvl = xp[message.author.id].level * 300;
+  xp[message.author.id].xp =  curxp + xpAdd;
+  if(nxtLvl <= xp[message.author.id].xp){
+    xp[message.author.id].level = curlvl + 1;
+    let lvlup = new Discord.RichEmbed()
+    .setTitle("Level Up!")
+    .setColor(purple)
+    .addField("New Level", curlvl + 1);
+
+    message.channel.send(lvlup).then(msg => {msg.delete(5000)});
+  }
+  fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+    if(err) console.log(err)
+  });
+});
+
+
+
+
+
+
+
+
+client.on('message', message => {
+    let messageArray = message.content.split(" ");
+    let cmd = messageArray[0];
+    let args = messageArray.slice(0);
+    let prefix = '!!';
+    let xp = require("./xp.json");
+    
+if(cmd === `${prefix}level`) {
+if(!xp[message.author.id]){
+    xp[message.author.id] = {
+      xp: 0,
+      level: 1
+   };
+ }
+   let curxp = xp[message.author.id].xp;
+   let curlvl = xp[message.author.id].level;
+   let nxtLvlXp = curlvl * 300;
+   let difference = nxtLvlXp - curxp;
+ 
+   let lvlEmbed = new Discord.RichEmbed()
+   .setAuthor(message.author.username)
+   .setColor(green)
+   .addField("Level", curlvl, true)
+   .addField("XP", curxp, true)
+   .setFooter(`${difference} XP til level up`, message.author.displayAvatarURL);
+ 
+   message.channel.send(lvlEmbed).then(msg => {msg.delete(5000)});
+}
+});
+
+
+
+
 client.login(process.env.BOT_TOKEN);
