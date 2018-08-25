@@ -251,39 +251,6 @@ if (message.content.startsWith(prefix + 'setavatar')) {
 
 
 
-client.on('message', message => { 
-    var p = "."
-        if (message.content.startsWith(p + `its`)) {
-message.guild.setName(`I`)
-.then(msg => {
- setInterval(() => {
-message.guild.setName(`T`)
-.then(msg => {
- setInterval(() => {
-message.guild.setName(`S`) 
-.then(msg => {
- setInterval(() => {
-}, 11000);
-});
-},  10000);
-});
-},  8000);
-});
-},  6000);
-});
-},  4000);
-});
-},  1000);
-})
-        .catch(console.error);
-  //message.delete().catch(O_o=>{}); 
- 
-}
-
-});
-
-
-
 
 
 
