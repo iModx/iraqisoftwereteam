@@ -252,52 +252,6 @@ if (message.content.startsWith(prefix + 'setavatar')) {
 
 
 
-```
-client.on('message', message => {
-    if (message.author.bot) return;
-     if (message.content === prefix + "ahelp") {
-         if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.reply(`
-                  
-         `);
-         message.channel.send('**لقد تم ارسال رسالة المساعدة في الرسائل الخاصة**');
-            
-    
-         
-
-
- message.author.sendMessage(`
- **
-
-╔[❖══════════════════════❖]╗
-       الأوامر الإداريه
-╚[❖══════════════════════❖]╝
-
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
- ❖ .kick <mention > ➾ لطرد الأعضاء
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
- ❖ .clear ➾ لمسح الشات
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= 
- ❖ .mute < mention > ➾ لإعطاء ميوت للإعضاء
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
- ❖ .unmute <mention> ➾ لفك الميوت عن الأعضاء
- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= 
- ❖ .bc <message> ➾ لإرسال رسالة جماعية
- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
- ❖ .closeroms <message> ➾ لإغلاق الشات
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= 
- ❖ .openroms <message> ➾ لفتح الشات
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
- ❖ .server <message> ➾ لمعرفة نبذه عن السيرفر
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
- ❖ .warn <message> ➾ لإعطاء انذار لأحد الأعضاء
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-By ISTeam
-`);
-
-    }
-});
-
 
 
 
