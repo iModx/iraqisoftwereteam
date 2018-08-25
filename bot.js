@@ -387,13 +387,13 @@ var ss = 0;
 client.on('voiceStateUpdate', (o,n) => {
     if (o.voiceChannel && !n.voiceChannel) {
         ss-=1
-        n.guild.channels.get("482974582630907904").edit({
+        n.guild.channels.get("482975781501272094").edit({
             name : "Voice Online : [" + ss+ "]"
         })
     };
     if (n.voiceChannel && !o.voiceChannel) {
         ss+=1
-        n.guild.channels.get("482974582630907904").edit({
+        n.guild.channels.get("482975781501272094").edit({
             name : "Voice Online : [" + ss+ "]"
         })
     }
@@ -403,7 +403,7 @@ client.on("ready", () => {
         if (m.voiceChannel) {
             ss+=1
         };
-        client.channels.get("482974582630907904").edit({
+        client.channels.get("482975781501272094").edit({
             name : "Voice Online : [" + ss+ "]"
         })
     });
