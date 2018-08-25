@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefix = '.'
+const prefix = '='
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -107,6 +107,76 @@ client.on("message", (message) => {
         }
     }
 })
+
+
+
+
+
+
+
+
+
+var temp = {
+
+};
+var prefix = "=";
+client.on("message",(message) => {
+    if (message.channel.type !== "text") return;
+    if (!message.content.startsWith(prefix)) return;
+    switch(message.content.split(" ")[0].slice(prefix.length)) {
+        case "tempon" :
+            if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** لا يوجد لديك خواص تسمح لك بالقيام بهذا الامر");
+            temp[message.guild.id] = {
+                work : true,
+                channel : "Not Yet"
+            };
+            message.guild.createChannel("اضغط لصنع روم مؤقت").then(c => {
+                c.setPosition(1);
+                temp[message.guild.id].channel = c.id
+                message.channel.send("** تم انشاء الروم.**");
+            });
+        break;
+        case "tempof" :
+        if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** لا يوجد لديك خواص تسمح لك بالقيام بهذا الامر");
+        message.guild.channels.get(temp[message.guild.id]).delete();
+            temp[message.guild.id] = {
+                work : false,
+                channel : "Not Yet"
+            };
+        message.channel.send("** تم انشاء الروم.**");
+    };
+});
+client.on("voiceStateUpdate", (o,n) => {
+    if (!temp[n.guild.id]) return;
+    if (temp[n.guild.id].work == false) return;
+    if (n.voiceChannelID == temp[n.guild.id].channel) {
+        n.guild.createChannel(n.user.username, 'voice').then(c => {
+            n.setVoiceChannel(c);
+            c.overwritePermissions(n.user.id, {
+                CONNECT:true,
+                SPEAK:true,
+                MANAGE_CHANNEL:true,
+                MUTE_MEMBERS:true,
+                DEAFEN_MEMBERS:true,
+                MOVE_MEMBERS:true,
+                VIEW_CHANNEL:true  
+            });
+        })
+    };
+    if (!o.voiceChannel) return;
+    if (o.voiceChannel.name == o.user.username) {
+        o.voiceChannel.delete();
+    };
+});
+
+
+
+
+
+
+
+
+
 
 
 
